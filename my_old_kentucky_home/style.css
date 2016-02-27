@@ -1,0 +1,22 @@
+body {
+	text-align: center;
+	font: Verdana;
+	background: darkblue;
+/*	background-image: url("background-image.png");
+	background-size: 100% 250%; 
+	background-position: center;
+*/
+}
+
+#Title { 
+	color:LightSteelBlue;	
+	text-align: center;
+	font: verdana;
+	font-weight: 900; 
+	font-variant: small-caps;
+	text-decoration: underline;
+}
+
+h3 {
+	color: random;
+}
