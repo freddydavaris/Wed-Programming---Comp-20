@@ -16,69 +16,76 @@
 <script>
 	
 	var video = document.getElementById("music_video");
-	//var lyrics = document.getElementById("lyrics");
+	var lyrics = document.getElementById("lyrics");
 	
-
-	if (video.currentTime < 9){
-
-			lyrics.innerHTML ="<h2>♫ ♫ ♫ ♫ ♫ </h2>";
-	}
-
-	else if (video.currentTime < 16) {
-			lyrics.innerHTML ="<h2>The sun shines bright in My Old Kentucky Home,</h2>";
+	setInterval(function() {
+		console.log("in");
+		if (video.paused) {
+			return;
 		}
 
-	else if (video.currentTime < 22) {
-			lyrics.innerHTML ="<h3>'Tis summer, the people are gay;</h3>";
-		}	
 
-	else if (video.currentTime < 29) {
-			lyrics.innerHTML ="<h3>The corn-top's ripe and the meadow's in the bloom</h3>";
-		}	
 
-	else if (video.currentTime < 36) {
-			lyrics.innerHTML ="<h3>While the birds make music all the day.</h3>";
-		}	
+		if (video.currentTime < 8) {
+				lyrics.innerHTML = '<p><img src="image_one.jpg" alt="Image" /></p>';
+ 		}
 
-	else if (video.currentTime < 43) {
-			lyrics.innerHTML ="<h3>The young folks roll on the little cabin floor,</h3>";
-		}
+		else if (video.currentTime < 15) {
+				lyrics.innerHTML ="<h2>♫ ♫ The sun shines bright in My Old Kentucky Home, ♫ ♫</h2>";
+			}
 
-	else if (video.currentTime < 50) {
-			lyrics.innerHTML ="<h3>All merry, all happy and bright;</h3>";
-		}	
+		else if (video.currentTime < 21) {
+				lyrics.innerHTML ="<h2>♫ ♫ 'Tis summer, the people are gay; ♫ ♫</h3>";
+			}	
 
-	else if (video.currentTime < 56) {
-			lyrics.innerHTML ="<h3>By 'n' by hard times comes a knocking at the door,</h3>";
-		}	
+		else if (video.currentTime < 28) {
+				lyrics.innerHTML ="<h2>♫ ♫ The corn-top's ripe and the meadow's in the bloom ♫ ♫</h2>";
+			}	
 
-	else if (video.currentTime < 62) {
-			lyrics.innerHTML ="<h3>Then My Old Kentucky Home, good night!</h3>";
-		}	
+		else if (video.currentTime < 35) {
+				lyrics.innerHTML ="<h3>♫ ♫ While the birds make music all the day. ♫ ♫</h3>";
+			}	
 
-	else if (video.currentTime < 64) {
-			lyrics.innerHTML ="<h3>(Chorus)</h3>";
-		}
+		else if (video.currentTime < 42) {
+				lyrics.innerHTML ="<h2>♫ ♫ The young folks roll on the little cabin floor, ♫ ♫</h2>";
+			}
 
-	else if (video.currentTime < 70) {
-			lyrics.innerHTML ="<h3>Weep no more my lady</h3>";
-		}
+		else if (video.currentTime < 49) {
+				lyrics.innerHTML ="<h3>♫ ♫ All merry, all happy and bright; ♫ ♫</h3>";
+			}	
 
-	else if (video.currentTime < 76) {
-			lyrics.innerHTML ="<h3>Oh weep no more today;</h3>";
-		}	
+		else if (video.currentTime < 55) {
+				lyrics.innerHTML ="<h2>♫ ♫ By 'n' by hard times comes a knocking at the door,♫ ♫</h2>";
+			}	
 
-	else if (video.currentTime < 80) {
-			lyrics.innerHTML ="<h3>We will sing one song</h3>";
-		}	
+		else if (video.currentTime < 61) {
+				lyrics.innerHTML ="<h3>♫ ♫ Then My Old Kentucky Home, good night! ♫ ♫</h3>";
+			}	
 
-	else if (video.currentTime < 83) {
-			lyrics.innerHTML ="<h3>For My Old Kentucky Home</h3>";
-		}	
+		else if (video.currentTime < 63) {
+				lyrics.innerHTML = '<p><img src="image_two.jpg" alt="Image" /></p>';
+			}
 
-	else  {
-			lyrics.innerHTML ="<h3>For My Old Kentucky Home, far away</h3>";
-		}					
+		else if (video.currentTime < 69) {
+				lyrics.innerHTML ="<h1>♫ ♫ Weep no more my lady ♫ ♫</h1>";
+			}
+
+		else if (video.currentTime < 75) {
+				lyrics.innerHTML ="<h1>♫ ♫ Oh weep no more today; ♫ ♫</h1>";
+			}	
+
+		else if (video.currentTime < 80) {
+				lyrics.innerHTML ="<h1>We will sing one song</h1>";
+			}	
+
+		else if (video.currentTime < 84) {
+				lyrics.innerHTML ="<h1>For My Old Kentucky Home</h1>";
+			}	
+
+		else  {
+				lyrics.innerHTML ="<h1>For My Old Kentucky Home, far away</h1>";
+			}
+	}, 1000);									
 </script>
 
 </body>

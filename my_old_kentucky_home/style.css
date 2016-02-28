@@ -2,10 +2,7 @@ body {
 	text-align: center;
 	font: Verdana;
 	background: darkblue;
-/*	background-image: url("background-image.png");
-	background-size: 100% 250%; 
-	background-position: center;
-*/
+
 }
 
 h1 { 
@@ -18,5 +15,13 @@ h1 {
 }
 
 h2 {
+	color: LightSteelBlue;
+}
+
+h4 {
+	color: LightSteelBlue;
+}
+
+h3 {
 	color: LightSteelBlue;
 }
