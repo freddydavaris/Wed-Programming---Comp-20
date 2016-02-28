@@ -16,12 +16,69 @@
 <script>
 	
 	var video = document.getElementById("music_video");
-	var lyrics = document.getElementById("lyrics");
+	//var lyrics = document.getElementById("lyrics");
 	
-	// video.currentTime;	
-	
-	lyrics.innerHTML = "<h2>Incompatible with Firefox, please use another browser.</h2>";
 
+	if (video.currentTime < 9){
+
+			lyrics.innerHTML ="<h2>♫ ♫ ♫ ♫ ♫ </h2>";
+	}
+
+	else if (video.currentTime < 16) {
+			lyrics.innerHTML ="<h2>The sun shines bright in My Old Kentucky Home,</h2>";
+		}
+
+	else if (video.currentTime < 22) {
+			lyrics.innerHTML ="<h3>'Tis summer, the people are gay;</h3>";
+		}	
+
+	else if (video.currentTime < 29) {
+			lyrics.innerHTML ="<h3>The corn-top's ripe and the meadow's in the bloom</h3>";
+		}	
+
+	else if (video.currentTime < 36) {
+			lyrics.innerHTML ="<h3>While the birds make music all the day.</h3>";
+		}	
+
+	else if (video.currentTime < 43) {
+			lyrics.innerHTML ="<h3>The young folks roll on the little cabin floor,</h3>";
+		}
+
+	else if (video.currentTime < 50) {
+			lyrics.innerHTML ="<h3>All merry, all happy and bright;</h3>";
+		}	
+
+	else if (video.currentTime < 56) {
+			lyrics.innerHTML ="<h3>By 'n' by hard times comes a knocking at the door,</h3>";
+		}	
+
+	else if (video.currentTime < 62) {
+			lyrics.innerHTML ="<h3>Then My Old Kentucky Home, good night!</h3>";
+		}	
+
+	else if (video.currentTime < 64) {
+			lyrics.innerHTML ="<h3>(Chorus)</h3>";
+		}
+
+	else if (video.currentTime < 70) {
+			lyrics.innerHTML ="<h3>Weep no more my lady</h3>";
+		}
+
+	else if (video.currentTime < 76) {
+			lyrics.innerHTML ="<h3>Oh weep no more today;</h3>";
+		}	
+
+	else if (video.currentTime < 80) {
+			lyrics.innerHTML ="<h3>We will sing one song</h3>";
+		}	
+
+	else if (video.currentTime < 83) {
+			lyrics.innerHTML ="<h3>For My Old Kentucky Home</h3>";
+		}	
+
+	else  {
+			lyrics.innerHTML ="<h3>For My Old Kentucky Home, far away</h3>";
+		}					
 </script>
 
 </body>
