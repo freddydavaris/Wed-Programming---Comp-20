@@ -19,11 +19,6 @@
 	var lyrics = document.getElementById("lyrics");
 	
 	setInterval(function() {
-		console.log("in");
-		if (video.paused) {
-			return;
-		}
-
 
 
 		if (video.currentTime < 8) {
@@ -74,11 +69,11 @@
 				lyrics.innerHTML ="<h1>♫ ♫ Oh weep no more today; ♫ ♫</h1>";
 			}	
 
-		else if (video.currentTime < 80) {
+		else if (video.currentTime < 81) {
 				lyrics.innerHTML ="<h1>We will sing one song</h1>";
 			}	
 
-		else if (video.currentTime < 84) {
+		else if (video.currentTime < 85) {
 				lyrics.innerHTML ="<h1>For My Old Kentucky Home</h1>";
 			}	
 
