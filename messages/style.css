@@ -1,1 +1,29 @@
-/* Your CSS here... */
+
+
+h1{
+    background: #CDC5C5;
+    color: #F2EFE9;
+    font-style: italic;
+    display: block;
+    float: left;
+    font-weight: normal;
+    font-size: 30px;
+    padding: 0% 0% 0% 10%;
+
+}
+body {
+	    background: #CDC5C5;
+
+
+}
+
+.messages {
+
+}
+
+h4 {
+        background-color: grey;
+	    padding: 0% 0% 0% 10%;
+
+
+}
