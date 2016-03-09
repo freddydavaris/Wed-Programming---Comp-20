@@ -5,12 +5,10 @@ var url = "data.json";
 // var url = 
 
 function parse () {
-		// Step 1: set up HTTP request. Three required arguments...:
-		// ...HTTP method (string), URL (string), asynch (boolean)
+
 		request.open("GET", url, true);
 		request.send();
 
-		// Step 2: Set up callback function to deal with HTTP response data
 		request.onreadystatechange = function () {
 
 			console.log(request.status)
@@ -25,7 +23,6 @@ function parse () {
 
 			}
 			else if (request.readyState == 4 && request.status != 200) {
-				// think 404 or 500
 				document.getElementById("messages").innerHTML = "<p>Whoops, something went terribly wrong</p>";
 
 			}
