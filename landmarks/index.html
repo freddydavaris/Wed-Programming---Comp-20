@@ -3,14 +3,18 @@
 <html>
 
 	<head>
-		<title>Geolocation Map Example</title>
+		<title>Landmarks</title>
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 		<link rel="stylesheet" href="style.css" />
 		
 		<script>
+
+
 			var myLat = 0;
 			var myLng = 0;
+			var username = "PAIGE_DORSEY";
+			var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
 			var request = new XMLHttpRequest();
 			var me = new google.maps.LatLng(myLat, myLng);
 			var myOptions = {
@@ -34,6 +38,7 @@
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
 						renderMap();
+
 					});
 				}
 				else {
@@ -50,7 +55,7 @@
 				// Create a marker
 				marker = new google.maps.Marker({
 					position: me,
-					title: "Here I Am!"
+					title: ("Username:  " + username)
 				});
 				marker.setMap(map);
 					
@@ -60,10 +65,36 @@
 					infowindow.open(map, marker);
 				});
 			}
+
+			var xhttp = new XMLHttpRequest();
+
+
+			function post() {
+
+ 				var xhttp = new XMLHttpRequest();
+  				xhttp.onreadystatechange = function() {
+    			
+    			if (xhttp.readyState == 4 && xhttp.status == 200) {
+      				document.getElementById("post").innerHTML = xhttp.responseText;
+      				console.log(xhttp.responseText);
+
+    			}
+  			};
+
+  			xhttp.open("POST", url, true);
+  			xhttp.send("login=username&lat=myLat&lng=myLng");
+			}
+
+			post();
+
 		</script>
 	</head>
 	
 	<body onload="init()">
 		<div id="map_canvas"></div>
+		<div id="post"></div>
+	//	<div id="get"></div>
+
+
 	</body>
 </html>
