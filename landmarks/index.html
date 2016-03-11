@@ -12,6 +12,10 @@
 			var myLat = 0;
 			var myLng = 0;
 			var username = "PAIGE_DORSEY";
+
+			var user_markers = [];
+			var landmark_markers = [];
+
 			var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
 			var request = new XMLHttpRequest();
 			var me = new google.maps.LatLng(myLat, myLng);
@@ -63,52 +67,57 @@
 					infowindow.open(map, marker);
 				});
 				post();
+
 			}
 			var xhttp = new XMLHttpRequest();
+			
 			function post() {
- 				var xhttp = new XMLHttpRequest();
-  				xhttp.onreadystatechange = function() {
-    			
-    			if (xhttp.readyState == 4 && xhttp.status == 200) {
-      				document.getElementById("post").innerHTML = xhttp.responseText;
-       				console.log(xhttp.responseText);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
 
-    			}
-  			};
-  				xhttp.open("POST", url, true);
-  				  										console.log(myLat + " " +myLng);
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("post").innerHTML = xhttp.responseText;
+                    var message = JSON.parse(xhttp.responseText);
+                    console.log(message);
 
-  				var strFinal = "login="+username+"&lat="+myLat+"&lng="+myLng;
-				var params = strFinal;
-				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				xhttp.send(params);
-			}
+                    for (j = 0; j < message.people.length; j++) {
 
-			function renderMapOthers()
-			{
+                        var user_lat = message.people[j].lat;
+                        var user_lng = message.people[j].lng;
+                        var user_login = message.people[j].login;
+                        //     console.log(user_lat + " " + user_lng + " " + user_login);
 
-				elem.innerHTML = "<br>" + "<br>"+ "<br>" + "<br>" + "<h4> " + message[0].content + " - " + message[0].username + "</h4>" + "<br>" + 
-								 "<h4> " + message[1].content + " - " + message[1].username + "</h4>";
-				me = new google.maps.LatLng(myLat, myLng);
-				
-				// Update map and go there...
-				map.panTo(me);
+                        var image = {
+                            url: "user_pin.png", // url
+                            scaledSize: new google.maps.Size(20, 30), // scaled size
+                        };
 
-	
-				// Create a marker
-				marker = new google.maps.Marker({
-					position: me,
-					title: ("Username:  " + username)
-				});
-				marker.setMap(map);
-					
-				// Open info window on click of marker
-				google.maps.event.addListener(marker, 'click', function() {
-					infowindow.setContent(marker.title);
-					infowindow.open(map, marker);
-				});
-				post();
-			}
+                        var myLatLng = {lat: user_lat, lng: user_lng};
+
+                        user_markers.push(new google.maps.Marker({
+                            map: map,
+                            position: myLatLng,
+                            title: ("Username: " + user_login),
+                            animation: google.maps.Animation.DROP,
+                            icon: image
+                        }));
+
+						google.maps.event.addListener(user_markers[j], 'click', (function(marker) {
+    						return function(){
+    						infowindow.setContent(marker.title);
+    						infowindow.open(map, marker);
+				        }})(user_markers[j]));
+                    }
+                }
+            };
+            xhttp.open("POST", url, true);
+
+            var strFinal = "login=" + username + "&lat=" + myLat + "&lng=" + myLng;
+            var params = strFinal;
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(params);
+        }
+
 
 
 
