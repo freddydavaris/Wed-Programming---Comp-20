@@ -31,6 +31,7 @@
 			function init()
 			{
 				map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
 				getMyLocation();
 			}
 			
@@ -55,9 +56,159 @@
 
 	
 				// Create a marker
+
+				post();
+
+			}
+			var xhttp = new XMLHttpRequest();
+			
+
+
+			function post() {
+
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("post").innerHTML = xhttp.responseText;
+                    var message = JSON.parse(xhttp.responseText);
+
+//Pinning the users
+console.log(message);
+                    for (j = 0; j < message.people.length; j++) {
+
+                     if (message.people[j].login !== username){
+
+                    
+                    	 
+                        var user_lat = message.people[j].lat;
+                        var user_lng = message.people[j].lng;
+                        var user_login = message.people[j].login;
+
+                    }
+
+						Number.prototype.toRad = function() {
+						   return this * Math.PI / 180;
+						}
+
+						var lat2 = myLat; 
+						var lon2 =  myLng; 
+						var lat1 = user_lat; 
+						var lon1 =  user_lng; 
+
+						var R = 6371/1.60934; // km 
+						//has a problem with the .toRad() method below.
+						var x1 = lat2-lat1;
+						var dLat = x1.toRad();  
+						var x2 = lon2-lon1;
+						var dLon = x2.toRad();  
+						var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+						                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+						                Math.sin(dLon/2) * Math.sin(dLon/2);  
+						var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+						var d = R * c; 
+
+					
+
+
+                        var image_1 = {
+                            url: "user_pin.png", // url
+                            scaledSize: new google.maps.Size(20, 30), // scaled size
+                        };
+
+                        var user_myLatLng = {lat: user_lat, lng: user_lng};
+
+                        user_markers.push(new google.maps.Marker({
+                            map: map,
+                            position: user_myLatLng,
+                            title: ("Username: " + user_login + "<br>" + "is " + d + " mile(s)" + "<br>" + "away from me."),
+                            animation: google.maps.Animation.DROP,
+                            icon: image_1
+                        }));
+                   	 
+
+						google.maps.event.addListener(user_markers[j], 'click', (function(marker) {
+    						return function(){
+    						infowindow.setContent(marker.title);
+    						infowindow.open(map, marker);
+				        }})(user_markers[j]));
+                    }
+
+//Pinning the landmarks
+
+						var lat1 = message.landmarks[0].geometry.coordinates[1];
+                        var lon1 = message.landmarks[0].geometry.coordinates[0];
+                        var lat2 = myLat; 
+						var lon2 =  myLng; 
+
+                        Number.prototype.toRad = function() {
+						   return this * Math.PI / 180;
+						}
+						          var polyline = new google.maps.Polyline({
+                        	path: [{lat: myLat, lng: myLng},
+                        		   {lat: message.landmarks[0].geometry.coordinates[1], lng: message.landmarks[0].geometry.coordinates[0]}],
+                        	geodesic: true,
+                        	strokeColor: '#FF0000',
+                        	strokeWeight: 5
+                        });
+
+                        polyline.setMap(map);
+
+
+
+
+						var R = 6371/1.60934; // km 
+						//has a problem with the .toRad() method below.
+						var x1 = lat2-lat1;
+						var dLat = x1.toRad();  
+						var x2 = lon2-lon1;
+						var dLon = x2.toRad();  
+						var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+						                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+						                Math.sin(dLon/2) * Math.sin(dLon/2);  
+						var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+						var d = R * c; 
+
+
+                    for (k = 0; k < message.landmarks.length; k++) {
+
+
+                        var landmark_lat = message.landmarks[k].geometry.coordinates[1];
+                        var landmark_lng = message.landmarks[k].geometry.coordinates[0];
+                        var landmark_details = message.landmarks[k].properties.Details;
+                        
+                  		
+
+
+
+
+                        var image_2 = {
+                            url: "landmark_pin.png", 
+                            scaledSize: new google.maps.Size(30, 30), // scaled size
+                        };
+
+                        var landmark_myLatLng = {lat: landmark_lat, lng: landmark_lng};
+
+                        landmark_markers.push(new google.maps.Marker({
+                            map: map,
+                            position: landmark_myLatLng,
+                            title: (landmark_details),
+                            animation: google.maps.Animation.DROP,
+                            icon: image_2
+                        }));
+
+						google.maps.event.addListener(landmark_markers[k], 'click', (function(marker) {
+    						return function(){
+    						infowindow.setContent(marker.title);
+    						infowindow.open(map, marker);
+				        }})(landmark_markers[k]));
+
+
 				marker = new google.maps.Marker({
 					position: me,
-					title: ("Username:  " + username)
+
+					title: ("Username:  " + username + "<br>" + "Closest Historic Landmark:" + "<br>" + "Name: "  + message.landmarks[0].properties.Location_Name + "<br>" + "Distance: " + d + " mile(s) away")
 				});
 				marker.setMap(map);
 					
@@ -66,50 +217,17 @@
 					infowindow.setContent(marker.title);
 					infowindow.open(map, marker);
 				});
-				post();
 
-			}
-			var xhttp = new XMLHttpRequest();
-			
-			function post() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
 
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    document.getElementById("post").innerHTML = xhttp.responseText;
-                    var message = JSON.parse(xhttp.responseText);
-                    console.log(message);
 
-                    for (j = 0; j < message.people.length; j++) {
 
-                        var user_lat = message.people[j].lat;
-                        var user_lng = message.people[j].lng;
-                        var user_login = message.people[j].login;
-                        //     console.log(user_lat + " " + user_lng + " " + user_login);
-
-                        var image = {
-                            url: "user_pin.png", // url
-                            scaledSize: new google.maps.Size(20, 30), // scaled size
-                        };
-
-                        var myLatLng = {lat: user_lat, lng: user_lng};
-
-                        user_markers.push(new google.maps.Marker({
-                            map: map,
-                            position: myLatLng,
-                            title: ("Username: " + user_login),
-                            animation: google.maps.Animation.DROP,
-                            icon: image
-                        }));
-
-						google.maps.event.addListener(user_markers[j], 'click', (function(marker) {
-    						return function(){
-    						infowindow.setContent(marker.title);
-    						infowindow.open(map, marker);
-				        }})(user_markers[j]));
-                    }
+                    }                   
                 }
             };
+			
+  
+
+   
             xhttp.open("POST", url, true);
 
             var strFinal = "login=" + username + "&lat=" + myLat + "&lng=" + myLng;
@@ -119,17 +237,13 @@
         }
 
 
-
-
-
 		</script>
 	</head>
 	
 	<body onload="init()">
 		<div id="map_canvas"></div>
 		<div id="post"></div>
-	//	<div id="get"></div>
-
+	
 
 	</body>
 </html>
