@@ -9,8 +9,6 @@
 		<link rel="stylesheet" href="style.css" />
 		
 		<script>
-
-
 			var myLat = 0;
 			var myLng = 0;
 			var username = "PAIGE_DORSEY";
@@ -38,7 +36,6 @@
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
 						renderMap();
-
 					});
 				}
 				else {
@@ -51,6 +48,7 @@
 				
 				// Update map and go there...
 				map.panTo(me);
+
 	
 				// Create a marker
 				marker = new google.maps.Marker({
@@ -64,28 +62,56 @@
 					infowindow.setContent(marker.title);
 					infowindow.open(map, marker);
 				});
+				post();
 			}
-
 			var xhttp = new XMLHttpRequest();
-
-
 			function post() {
-
  				var xhttp = new XMLHttpRequest();
   				xhttp.onreadystatechange = function() {
     			
     			if (xhttp.readyState == 4 && xhttp.status == 200) {
       				document.getElementById("post").innerHTML = xhttp.responseText;
-      				console.log(xhttp.responseText);
+       				console.log(xhttp.responseText);
 
     			}
   			};
+  				xhttp.open("POST", url, true);
+  				  										console.log(myLat + " " +myLng);
 
-  			xhttp.open("POST", url, true);
-  			xhttp.send("login=username&lat=myLat&lng=myLng");
+  				var strFinal = "login="+username+"&lat="+myLat+"&lng="+myLng;
+				var params = strFinal;
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhttp.send(params);
 			}
 
-			post();
+			function renderMapOthers()
+			{
+
+				elem.innerHTML = "<br>" + "<br>"+ "<br>" + "<br>" + "<h4> " + message[0].content + " - " + message[0].username + "</h4>" + "<br>" + 
+								 "<h4> " + message[1].content + " - " + message[1].username + "</h4>";
+				me = new google.maps.LatLng(myLat, myLng);
+				
+				// Update map and go there...
+				map.panTo(me);
+
+	
+				// Create a marker
+				marker = new google.maps.Marker({
+					position: me,
+					title: ("Username:  " + username)
+				});
+				marker.setMap(map);
+					
+				// Open info window on click of marker
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.setContent(marker.title);
+					infowindow.open(map, marker);
+				});
+				post();
+			}
+
+
+
 
 		</script>
 	</head>
