@@ -12,12 +12,12 @@
 			
 var myLat = 0;
 var myLng = 0;
-var username = "PAIGE_DORSEY";
+var username = "freddyyy";
 
 var user_markers = [];
 var landmark_markers = [];
 
-var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
+var url = "https://glacial-woodland-96277.herokuapp.com/sendLocation";
 var request = new XMLHttpRequest();
 var me = new google.maps.LatLng(myLat, myLng);
 var myOptions = {
@@ -84,7 +84,7 @@ function post() {
                     var user_lng = message.people[j].lng;
                     var user_login = message.people[j].login;
 
-                }
+                
 
                 Number.prototype.toRad = function() {
                     return this * Math.PI / 180;
@@ -106,6 +106,7 @@ function post() {
                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
                 var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                 var d = R * c;
+            }
 
 
 
@@ -220,7 +221,6 @@ function post() {
                     title: ("Username:  " + username + "<br>" + "Closest Historic Landmark:" + "<br>" + "Name: " + message.landmarks[0].properties.Location_Name + "<br>" + "Distance: " + d + " mile(s) away")
                 });
                 marker.setMap(map);
-
                 // Open info window on click of marker
                 google.maps.event.addListener(marker, 'click', function() {
                     infowindow.setContent(marker.title);

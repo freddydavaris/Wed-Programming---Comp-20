@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<title>Security</title>
+		<link rel="stylesheet" href="style.css" type="text/css"/>
+	</head>
+
+<body>
+
+<div class='upper'>
+
+<h1 id='up'> Comp 20 Assignment 4 </h1>
+<h1 id='up'> Security Assessment </h1>
+<h3> Freddy Davaris </h3>
+<h3> Partner: Vincent Chang </h3>
+<h3> Partner's HerokuApp: <a href="https://fathomless-oasis-92299.herokuapp.com/">fathomless-oasis-92299.herokuapp.com</a></h3>
+
+</div>
+
+<div id='spacer'>
+
+<div class='inner'>
+
+<div class='block'>
+<h1>Introduction</h1>
+<p> This assessment test the security of the <code>Landmarks</code> web application developed by Vincent Chang for Comp20 Assignment 2 - front end - and assignment 3 - back end -. The front end part side of Landmarks is a client side interface. It uses a Google Maps API to render a map and performs an <code>HTTP POST </code>  to the server requesting data using <code>HTMLhttpRequest</code>. The <code> POST </code>sends a login along with the current latitude and longitude of the user. The server then processes the information and returns a JSON file containing information regarding other user's locations who have checked in previously and information regarding landmarks in a one mile radius from the user. </p>
+
+<p> The server side interface of <code>Landmarks</code>, initially receives three parameters: login, latitude and longitude. The server processes the information and stores it on MongoDB and sends back the appropriate landmark information and user checkin location in the form of a JSON file to the client. In addition all the checkins are diplayed on the servers home directory - <code>fathomless-oasis-92299.herokuapp.com</code>. 
+</p>
+</div>
+
+<div class='block'>
+<h1> Methodology </h1>
+
+<p> To conduct this security assessment i started of with "black-box" trying to find inefficiencies without looking at the source code. However, most of the volnurabilities surfaced when reviewed my partner's source code and started running the code locally. I then used a chrome extension called Postman, and  <code> curl </code> to test some corner case <code>GET</code> and <code>POST</code> requests that where expected to cause security violations to my partners code. </p> 
+
+</div>
+
+<div class='block'>
+
+<h1> Abstract of Findings </h1>
+
+<p> Landmarks contains multiple security vulnerabilities most of which stem from send location interface which is in charge of sending the login, latitude and longitude of the user. The server side application can be easily manipulated in various unexpected and catastrophic outcomes causing the web application to present opportunities for hackers to steal information, provide false information and change the use of the application merely by using the post function.</p>
+
+</div>
+
+<div class='block'>
+
+<h1> Issues Found </h1>
+<h3> 1. Cross Site Scripting or XSS </h3> 
+<h3 id='severity'> Severity: High </h3>
+
+<p> Using <code> curl </code> and Postman, I was able to <code> POST </code> scripts instead of my login information which would be rendered by the client's web browser. By that I was able to insert images, cause pop-ups and eventually end up flooding the server with continuous requests that could not be handled bt the server, eventually crashing it. </p>
+
+	<ul>
+		<li> <p> <u> Inserting images: </u><br><br> I was able to insert an image in the place of my login information. I managed to do that using postman where in the place of my actual login name I altered it to the string shown in the image below.  </p>
+
+		<img id="right" src="images/xss_postman_image_code.jpg" alt = "xss postamn POST image">
+
+		<p> Despite this not having such a negative impact on the web application it shows how the data received by the server side application is not restricted to login strings. In a well functioning applications pictures, or any other parameters that are not login strings should not have permission to be parsed by the server. The result of the post can be seen in the image below. 
+		</p>
+
+		<img id="right" src="images/xss_hacker_image.jpg" alt = "xss inserted image">
+
+		</li>
+		<li> <p> <u> Pop-up notifications: </u><br><br> To create pop notifications on the backend application I inserted a script with javascript code were my login information was supposed to be. An attacker can use XSS to send malicious script to an unsuspecting user. In worse case scenarios an attacker can end up accessing information like the website's cookies, session tokens, or other sensitive information that is supposed to be private. My goal was to demonstrate how the script tags were enable in the web interface and thus executed the command shown:
+		</p>
+		
+		<img id="right" src="images/source_code_alert.jpg" alt = "xss alerts source code">
+
+		<p> As you can see I decided to alter the code through my partner's source code. The same could have also been achieved using postman or curl, i just wanted to test attacking the web application from all possible angles. The result lead to repeated pop up alert windows saying that "You have been hacked!!" on the server's home directory when it was trying to load slowing down the whole performance of the application. 
+		</p>
+
+		<img id="right" src="images/xss_alert_image.jpg" alt = "xss alerts image">
+		</li>
+
+
+		<li> <p> <u> Flooding the server: </u><br><br> The final and most consequential attack i carried using <code> XSS </code> was to flood the server with multiple checkins at a small time span. I managed to write a script that would call itself continuously, causing the web interface to get stuck on processing this information and never render the webpage correctly. To see how successful my attempts to flood the server I added a subtle <code> console.log("DESTROOY") </code> message to see how many times the loop would be ran by the server.
+		</p>
+
+		<img id="right" src="images/flood_server_command.jpg" alt = "xss flood server">
+
+		<p>
+		The attack was carried through the terminal using <code> curl </code>. The result can be seen in the image below were if you notice in the bottom of the page the console.log() command has been already executed 72289 with no signs of stoping soon. 
+		</p>
+
+		<img id="right" src="images/flooded_server.jpg" alt = "xss flood server">
+
+		<p>At that point the home page of the server was not able to load all previous checkins and was totally unresponsive trying to handle all the checkins at once. 
+		</p>
+
+		</li> 
+
+	</ul>
+
+
+<p> <u>Rationale for severity</u> - The high severity of this vulnurability can be attributed to the fact that a hacker could exploit this window and, as briefly mentioned before, access clients' computers and personal information. The extent to which the attacker decides to expose the web application depends on the hacker given that using this method one could embed entire applications in a script and do that without the user ever knowing.</p>
+
+<p> Recommendation - The server application should be able to identify and prevent potential instances of XSS. This can be easily manuevered by restricting the "<" and ">" symbols or just converting them to spaces so that users can not embed scripts.</p>
+
+</div>
+
+<div class='block'>
+
+<h3> 2. Database Injection </h3>
+<h3 id='severity'> Severity: High </h3>
+
+<p> The <code>GET</code> request returns a JSON associative array containing the user’s previous login information with the parameters for the query are concatenated to the URL. These logins (aka checkins) are all stored in a MongoDB database. If a hacker knows how to exploit this information, he/she can cause major database leaks regarding every user's information. I implemented the database injection using the <code> [$gt]</code> operator. By using this operator i was able to retrieve information regarding every login greater than an empty string. So basically any login that had ever been recorded by the database. 
+</p>
+
+		<img id="right" src="images/user_login_info_command.jpg" alt = "DB injection postman command">
+
+<p> That was very easy to do merely by using postman, <code> GET </code> and the operator explained above. The results of this implementation was the following:  </p> 
+
+		<img id="right" src="images/user_login_info_postman.jpg" alt = "DB injection result">
+
+<p> You can clearly see all the page information with the first two checkins that are visible in the image, being my previous attempts to cause pop notifications using XSS. If you could scroll down in the image you would see all the other user checkins with login information, latitude, logitude and time of check-in.</p> 
+
+<p> <u>Rationale for severity</u> - Depending on the functionality of the website, this security vulnurability could be a huge potential threat to the security of users. In our case the attacker could extract information about all users' locations and login information. </p>
+
+<p> Recommendation - The application should be able to identify and eliminate mongoDB operations, by using regular expressions, from the <code> GET and POST </code> operations.</p>
+
+</div>
+
+<div class='block'>
+<h3> 3. False Location </h3>
+<h3 id='severity'> Severity: Low </h3>
+
+<p> Using <code> curl </code> and Postman i was able to <code> POST </code> false locations to the mongoDB database. More specifically, I set my coordinates as  31 N, 22 E, which ended showing that my location was somewhere in Greece instead of Tufts (Medford). Using the same technique i could have altered my Login name as well and created a false user.</p>
+
+<p> <u>Rationale for severity</u> - In this specific web application this would not particularly affect the server or other users since it would just display an extra under the dummy login information i assigned him, somewhere in Greece. In other cases though, this vulnarability could lead to more severe complications  </p>
+
+<p> Recommendation - The application should be able to cross check whether the user is in the vicinity that he is appearing to be. This can be accomplished by checking the user's IP address location. If the IP address does not correlate to the user's latitude and longitude the POST request should not be allowed to go through. Since the IP address does not provide exact location of the user, this could only act as a safety net to <strong>alleviate</strong> but not prevent this type of behaviour. </p>
+
+</div>
+
+
+
+<div class='block'>
+<h1>Conclusion</h1>
+<p> Following the recommendations in this report would significantly reduce the website's vulnarability against these basic attacks and allow it to function properly without distorted data, information leaks and annoying continuous pop-ups. These changes will act as a shield to the contermporary code to provide a proper and safe Landmarks site. In addition users' data in MongoDB could be safely stored and all the threats mentioned in the report will belong in the past. The cost of fixing these inefficiencies would be minimal - around $300 to $400 - in given that the threat of these vulnarabilities staying open to any basic-knowledge attackers. 
+ </p>
+</div
+
+</div>
+
+</body>

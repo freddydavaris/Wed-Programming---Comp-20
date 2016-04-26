@@ -1,0 +1,60 @@
+body {
+	background-color: white;
+}
+
+img#right {
+	max-width: 80%;
+	position: relative;
+}
+
+img#left {
+	max-width: 80%;
+	float: left;
+}
+
+h1 {
+	font-family: "Helvetica";
+	color: white;
+}
+
+h1#up {
+	font-family: "Helvetica";
+}
+
+h3#severity {
+	color:black;
+}
+
+#spacer {
+	padding-top:10px;
+}
+
+.upper {
+	background-color: grey;
+	line-height: 20px;
+	text-align: center;
+	font-family: "Helvetica";
+	max-width: 95%;
+	padding:20px;
+	margin: 0 auto;
+	color: white;
+}
+
+.inner {
+	max-width: 95%;
+	padding:20px;
+	margin: 0 auto;
+	background-color: grey;
+}
+
+.block {
+	font-family: "Helvetica";
+	line-height: 25px;
+	color: white;
+}
+
+#sub {
+	font-style: italic;
+	font-size: 9px;
+	color:grey;
+}
