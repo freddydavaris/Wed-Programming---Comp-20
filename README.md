@@ -1,1 +1,7 @@
 # comp20-fdavaris
+
+1. The purpose of this github repository serves to safely store, share and display my first coding endeavors in web programming. 
+2. My favorite lab or assignment was landmarks through which i learned more about web programming than i ever expected. The front end implementation of landmarks and the use of the google maps api and GET and POST commands showed me the endless posibilities of web programming.
+3. Since day 1 of this course i have grown a lot not only coding wise, is which i have really evolved into this new UI based world of coding but also in terms of understanding how the world wide web works and how communicatios between clients and servers are established in order for us to be provided with this seemingly trivial luxury.
+4. The two most important things i learned in this course were first of all how a webpage is structured in order for it to be displayed with all its properties and how it communicates with servers using hanshaking to exchange information and provide the best possible user experience. Seconydly i learned and for the first time comprehended what  web security practically means. How attackers can target website vulnerabilities to steal private information or change the functionality of a running website.
+5. The topic that i enjoyed the most was the front end since this is for me the part that allows the coder to put more of his imagination and effort in order to please the potential users navigating the page. 
