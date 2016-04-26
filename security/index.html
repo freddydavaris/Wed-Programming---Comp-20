@@ -14,7 +14,7 @@
 <h1 id='up'> Comp 20 Assignment 4 </h1>
 <h1 id='up'> Security Assessment </h1>
 <h3> Freddy Davaris </h3>
-<h3> Partner: Vincent Chang </h3>
+<h3> Partner: Vincent Tsang </h3>
 <h3> Partner's HerokuApp: <a href="https://fathomless-oasis-92299.herokuapp.com/">fathomless-oasis-92299.herokuapp.com</a></h3>
 
 </div>
@@ -25,16 +25,16 @@
 
 <div class='block'>
 <h1>Introduction</h1>
-<p> This assessment test the security of the <code>Landmarks</code> web application developed by Vincent Chang for Comp20 Assignment 2 - front end - and assignment 3 - back end -. The front end part side of Landmarks is a client side interface. It uses a Google Maps API to render a map and performs an <code>HTTP POST </code>  to the server requesting data using <code>HTMLhttpRequest</code>. The <code> POST </code>sends a login along with the current latitude and longitude of the user. The server then processes the information and returns a JSON file containing information regarding other user's locations who have checked in previously and information regarding landmarks in a one mile radius from the user. </p>
+<p> This assessment, tests the security of the <code>Landmarks</code> web application developed by Vincent Tsang for Comp20 Assignment 2 - front end - and assignment 3 - back end -. The front end part side of Landmarks is a client side interface. It uses a Google Maps API to render a map, and performs an <code>HTTP POST </code>  to the server requesting data using <code>HTMLhttpRequest</code>. The <code> POST </code>sends a login along with the current latitude, and longitude of the user. The server then processes the information and returns a JSON file containing information regarding other user's locations who have checked in previously, and information regarding landmarks in a one mile radius from the user. </p>
 
-<p> The server side interface of <code>Landmarks</code>, initially receives three parameters: login, latitude and longitude. The server processes the information and stores it on MongoDB and sends back the appropriate landmark information and user checkin location in the form of a JSON file to the client. In addition all the checkins are diplayed on the servers home directory - <code>fathomless-oasis-92299.herokuapp.com</code>. 
+<p> The server side interface of <code>Landmarks</code>, initially receives three parameters: login, latitude and longitude. The server processes the information and stores it on MongoDB and sends back to the client the appropriate landmark information and user checkin location in the form of a JSON file. In addition all the checkins are diplayed on the server's home directory - <code><a href="https://fathomless-oasis-92299.herokuapp.com/">fathomless-oasis-92299</a></code>. 
 </p>
 </div>
 
 <div class='block'>
 <h1> Methodology </h1>
 
-<p> To conduct this security assessment i started of with "black-box" trying to find inefficiencies without looking at the source code. However, most of the volnurabilities surfaced when reviewed my partner's source code and started running the code locally. I then used a chrome extension called Postman, and  <code> curl </code> to test some corner case <code>GET</code> and <code>POST</code> requests that where expected to cause security violations to my partners code. </p> 
+<p> To conduct this security assessment I started of with "black-box" trying to find inefficiencies without looking at the source code. However, most of the volnurabilities surfaced when reviewed my partner's source code and started running the code locally. I then used a chrome extension called Postman, and  <code> curl </code> to test some corner case <code>GET</code> and <code>POST</code> requests that where expected to cause security violations in my partners code. </p> 
 
 </div>
 
@@ -42,7 +42,7 @@
 
 <h1> Abstract of Findings </h1>
 
-<p> Landmarks contains multiple security vulnerabilities most of which stem from send location interface which is in charge of sending the login, latitude and longitude of the user. The server side application can be easily manipulated in various unexpected and catastrophic outcomes causing the web application to present opportunities for hackers to steal information, provide false information and change the use of the application merely by using the post function.</p>
+<p> Landmarks contains multiple security vulnerabilities most of which stem from the send location interface which is in charge of sending the login, latitude and longitude of the user. The server side application can be easily manipulated in various unexpected and catastrophic outcomes causing the web application to present opportunities for hackers to steal information, provide false information and change the use of the application merely by using the post function.</p>
 
 </div>
 
@@ -52,7 +52,7 @@
 <h3> 1. Cross Site Scripting or XSS </h3> 
 <h3 id='severity'> Severity: High </h3>
 
-<p> Using <code> curl </code> and Postman, I was able to <code> POST </code> scripts instead of my login information which would be rendered by the client's web browser. By that I was able to insert images, cause pop-ups and eventually end up flooding the server with continuous requests that could not be handled bt the server, eventually crashing it. </p>
+<p> Using <code> curl </code> and Postman, I was able to <code> POST </code> scripts instead of my login information which would be rendered by the client's web browser. By that I was able to insert images, cause pop-ups and eventually end up flooding the server with continuous requests and eventually crashing it. </p>
 
 	<ul>
 		<li> <p> <u> Inserting images: </u><br><br> I was able to insert an image in the place of my login information. I managed to do that using postman where in the place of my actual login name I altered it to the string shown in the image below.  </p>
@@ -83,7 +83,7 @@
 		<img id="right" src="images/flood_server_command.jpg" alt = "xss flood server">
 
 		<p>
-		The attack was carried through the terminal using <code> curl </code>. The result can be seen in the image below were if you notice in the bottom of the page the console.log() command has been already executed 72289 with no signs of stoping soon. 
+		The attack was carried through the terminal using <code> curl </code>. The result can be seen in the image below were if you notice in the bottom of the page the console.log() command has been already executed 72289 with no signs of stopping soon. 
 		</p>
 
 		<img id="right" src="images/flooded_server.jpg" alt = "xss flood server">
